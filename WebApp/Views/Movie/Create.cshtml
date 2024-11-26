@@ -1,4 +1,4 @@
-@model WebApp.Models.Movies.Movie
+@model ModelMovie
 
 @{
     ViewData["Title"] = "Create";
@@ -14,10 +14,18 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="MovieId" class="control-label"></label>
-                <input asp-for="MovieId" class="form-control" />
-                <span asp-validation-for="MovieId" class="text-danger"></span>
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
+            
+            <div class="form-group">
+                <label asp-for="CompanyId" class="control-label"></label>
+                <select asp-for="CompanyId" class="form-control"></select>
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+                <input name="filter" type="search" id="filter"/>
+            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -28,4 +36,33 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts{
+    <script>
+        const select = document.getElementById('CompanyId');
+        const filter = document.getElementById('filter');
+        filter.onchange = (e) => {
+        fetch(`/api/companies?fragment=${filter.value}`)
+        .then(response =>{
+        if (response.ok){
+            return response.json();
+        }
+            throw "No Ok, actual status" + response.status;
+        })
+        .then(companies => {
+            select.innerHTML = "";
+            for (let item of companies){
+            const option = document.createElement('option');
+            option.setAttribute('value', item.companyId);
+            option.innerText = item.companyName;
+            select.appendChild(option);
+            }
+        })
+        .catch(e => {
+            console.error("Cant get from api", e);
+        })
+        }
+    </script>
+
+    }
 
