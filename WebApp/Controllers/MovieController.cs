@@ -155,6 +155,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        
         private bool MovieExists(int id)
         {
             return _context.Movies.Any(e => e.MovieId == id);
