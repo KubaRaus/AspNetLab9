@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.Models.Movies;
+[PrimaryKey(nameof(MovieId), nameof(CompanyId))]
 
 public partial class MovieCompany
 {
