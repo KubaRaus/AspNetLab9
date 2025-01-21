@@ -53,7 +53,7 @@ namespace WebApp.Controllers
             
             ViewBag.MovieCast = movieCast;
 
-            return View(movie);
+            return View(movie);l
         }
 
         // GET: Movie/Create
