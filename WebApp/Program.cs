@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using WebApp.Model.Movies;
 
+
+
 namespace WebApp;
 
 public class Program
@@ -15,7 +17,7 @@ public class Program
         {
             op.UseSqlite(builder.Configuration["MoviesDatabase:ConnectionString"]);
         });
-
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

@@ -1,9 +1,8 @@
+@using WebApp.Models.Movies
 @model WebApp.Models.Movies.Movie
 
-@{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+
+
 
 <h1>Details</h1>
 
@@ -83,9 +82,31 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.VoteCount)
         </dd>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Movie Cast
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <ul>
+                            @foreach (var movieCast in ViewBag.MovieCast as List<MovieCast>)
+                            {
+                                <li>@movieCast.CharacterName - @movieCast.Person.PersonName</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.MovieId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+

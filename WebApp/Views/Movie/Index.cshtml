@@ -1,102 +1,44 @@
 @model IEnumerable<WebApp.Models.Movies.Movie>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+ViewData["Title"] = "Lista filmów";
 }
 
-<h1>Index</h1>
+<h1>Movies</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-striped">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Budget)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Homepage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Overview)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Popularity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Revenue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Runtime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MovieStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tagline)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VoteAverage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VoteCount)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>Title</th>
+        <th>Budget</th>
+        <th>Homepage</th>
+        <th>Release Date</th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Budget)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Homepage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Overview)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Popularity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Revenue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Runtime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MovieStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tagline)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VoteAverage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VoteCount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
-            </td>
-        </tr>
-}
+    @foreach (var movie in Model)
+    {
+    <tr>
+        <td>
+            <a asp-controller="Movie" asp-action="Details" asp-route-id="@movie.MovieId">@movie.Title</a>
+        </td>
+        <td>
+            @(movie.Budget == 0 || !movie.Budget.HasValue ? "brak" : movie.Budget.Value.ToString("C", new System.Globalization.CultureInfo("en-US")))
+        </td>
+        <td>
+            @if (string.IsNullOrWhiteSpace(movie.Homepage))
+            {
+            <span>brak</span>
+            }
+            else
+            {
+            <a href="@movie.Homepage" target="_blank">@movie.Homepage</a>
+            }
+        </td>
+        <td>
+            @(movie.ReleaseDate.HasValue ? movie.ReleaseDate.Value.ToString("yyyy-MM-dd") : "brak")
+        </td>
+    </tr>
+    }
     </tbody>
 </table>

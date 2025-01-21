@@ -46,6 +46,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
+            var movieCast = await _context.MovieCasts
+                .Where(mc => mc.MovieId == id)
+                .Include(mc => mc.Person)
+                .ToListAsync();
+            
+            ViewBag.MovieCast = movieCast;
+
             return View(movie);
         }
 
@@ -70,6 +77,7 @@ namespace WebApp.Controllers
             }
             return View(movie);
         }
+        public async Task<IActionResult> AddCast([Bind]"")
 
         // GET: Movie/Edit/5
         public async Task<IActionResult> Edit(int? id)
