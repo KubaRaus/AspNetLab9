@@ -53,7 +53,19 @@ namespace WebApp.Controllers
             
             ViewBag.MovieCast = movieCast;
 
-            return View(movie);l
+            return View(movie);
+        }
+        public async Task<IActionResult> GetCast(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var movieCast = await _context.MovieCasts
+                .Where(mc => mc.MovieId == id)
+                .ToListAsync();
+            
+            return View();
         }
 
         // GET: Movie/Create
@@ -77,7 +89,32 @@ namespace WebApp.Controllers
             }
             return View(movie);
         }
-        public async Task<IActionResult> AddCast([Bind]"")
+        // POST: Movie/AddCast
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCast(int? id,MovieCast movieCast, string personName)
+        {
+            if (ModelState.IsValid)
+            {
+                var newPerson = new Person
+                {
+                    PersonName = personName
+                };
+                _context.People.Add(newPerson);
+                await _context.SaveChangesAsync();
+                
+                movieCast.PersonId = newPerson.PersonId;
+                movieCast.MovieId = id;
+                
+                _context.MovieCasts.Add(movieCast);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Movie");
+            }
+
+            return View(movieCast);
+        }
+        
 
         // GET: Movie/Edit/5
         public async Task<IActionResult> Edit(int? id)

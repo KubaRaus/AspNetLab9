@@ -1,0 +1,30 @@
+@model WebApp.Models.Movies.MovieCast
+
+@{
+    ViewData["Title"] = "AddCast";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="AddCast" method="post">
+    <div>
+        <label for="personName">New Person Name</label>
+        <input type="text" id="personName" name="personName" />
+    </div>
+    <div>
+        <label for="CharacterName">Character Name</label>
+        <input asp-for="CharacterName" />
+    </div>
+    <div>
+        <label for="GenderId">Gender</label>
+        <select asp-for="GenderId">
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+            <option value="0">Unspecified</option>
+        </select>
+    </div>
+    <div>
+        <label for="CastOrder">Cast Order</label>
+        <input asp-for="CastOrder" type="number" />
+    </div>
+    <button type="submit">Add</button>
+</form>
