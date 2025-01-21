@@ -22,13 +22,20 @@ namespace WebApp.Controllers
         // GET: Movie
         public async Task<IActionResult> Index(int page=1, int pageSize=20)
         {
-            return View(await _context
-                .Movies
+            int totalRecords = await _context.Movies.CountAsync();
+            
+            var movies = await _context.Movies
                 .OrderBy(m => m.Title)
-                .Skip(pageSize * page - 1)
+                .Skip((page - 1) * pageSize) 
                 .Take(pageSize)
                 .AsTracking()
-                .ToListAsync());
+                .ToListAsync();
+            
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+            ViewBag.CurrentPage = page;
+
+            return View(movies);
+
         }
 
         // GET: Movie/Details/5

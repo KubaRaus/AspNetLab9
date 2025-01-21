@@ -5,7 +5,68 @@ ViewData["Title"] = "Lista filmów";
 }
 
 <h1>Movies</h1>
+<!-- Paginacja -->
+<nav aria-label="Pagination">
+    <ul class="pagination">
+        @{
+            int pageRange = 5; 
+            int startPage = Math.Max(1, ViewBag.CurrentPage - pageRange / 2);
+            int endPage = Math.Min(ViewBag.TotalPages, startPage + pageRange - 1);
+            
+            if (endPage - startPage < pageRange)
+            {
+                startPage = Math.Max(1, endPage - pageRange + 1);
+            }
+        }
 
+        <!-- First Page Button -->
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = 1 })" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+        }
+
+        <!-- Previous Page Button -->
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        }
+        <!-- Page Buttons -->
+        @for (int i = startPage; i <= endPage; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+            </li>
+        }
+
+        <!-- Next Page Button -->
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        }
+
+        <!-- Last Page Button -->
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.TotalPages })" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
 <table class="table table-striped">
     <thead>
     <tr>

@@ -210,8 +210,8 @@ public partial class MoviesDbContext : DbContext
         modelBuilder.Entity<MovieCast>(entity =>
         {
             entity
-                .HasNoKey()
-                .ToTable("movie_cast");
+                .ToTable("movie_cast")
+                .HasKey(mc => new { mc.MovieId, mc.PersonId });
 
             entity.Property(e => e.CastOrder)
                 .HasDefaultValueSql("NULL")
@@ -358,10 +358,11 @@ public partial class MoviesDbContext : DbContext
 
         modelBuilder.Entity<Person>(entity =>
         {
+            entity.HasKey(e => e.PersonId);
             entity.ToTable("person");
 
             entity.Property(e => e.PersonId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnType("INT")
                 .HasColumnName("person_id");
             entity.Property(e => e.PersonName)

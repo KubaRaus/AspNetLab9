@@ -5,14 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<form asp-action="AddCast" method="post">
+<form asp-action="Create" method="post">
+    @Html.HiddenFor(model => model.MovieId)
     <div>
         <label for="personName">New Person Name</label>
-        <input type="text" id="personName" name="personName" />
+        <input type="text" id="personName" name="personName"/>
     </div>
     <div>
         <label for="CharacterName">Character Name</label>
-        <input asp-for="CharacterName" />
+        <input asp-for="CharacterName"/>
     </div>
     <div>
         <label for="GenderId">Gender</label>
@@ -24,7 +25,7 @@
     </div>
     <div>
         <label for="CastOrder">Cast Order</label>
-        <input asp-for="CastOrder" type="number" />
+        <input asp-for="CastOrder" type="number"/>
     </div>
     <button type="submit">Add</button>
 </form>
